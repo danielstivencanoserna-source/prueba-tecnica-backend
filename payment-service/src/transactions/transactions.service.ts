@@ -3,9 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { TransactionStatus } from '@prisma/client';
+
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { QueryTransactionsDto } from './dto/query-transactions.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -34,7 +37,7 @@ export class TransactionsService {
     });
   }
 
-async findAll(query: QueryTransactionsDto) {
+  async findAll(query: QueryTransactionsDto) {
     const { page, limit, status, type, merchantId } = query;
 
     const where: any = {};
@@ -76,6 +79,37 @@ async findAll(query: QueryTransactionsDto) {
     }
 
     return transaction;
+  }
+
+  async updateStatus(id: string, dto: UpdateStatusDto) {
+    const transaction = await this.findOne(id);
+
+    const current = transaction.status;
+    const next = dto.status;
+
+    const allowedTransitions: Record<
+      TransactionStatus,
+      TransactionStatus[]
+    > = {
+      pending: ['approved', 'rejected'],
+      approved: ['completed'],
+      rejected: [],
+      failed: [],
+      completed: [],
+    };
+
+    const allowed = allowedTransitions[current];
+
+    if (!allowed.includes(next)) {
+      throw new BadRequestException(
+        `Invalid transition: ${current} -> ${next}`,
+      );
+    }
+
+    return this.prisma.transaction.update({
+      where: { id },
+      data: { status: next },
+    });
   }
 
   private async generateUniqueReference(): Promise<string> {

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const transactions_service_1 = require("./transactions.service");
 const create_transaction_dto_1 = require("./dto/create-transaction.dto");
 const query_transactions_dto_1 = require("./dto/query-transactions.dto");
+const update_status_dto_1 = require("./dto/update-status.dto");
 let TransactionsController = class TransactionsController {
     transactionsService;
     constructor(transactionsService) {
@@ -30,6 +31,9 @@ let TransactionsController = class TransactionsController {
     }
     findOne(id) {
         return this.transactionsService.findOne(id);
+    }
+    updateStatus(id, dto) {
+        return this.transactionsService.updateStatus(id, dto);
     }
 };
 exports.TransactionsController = TransactionsController;
@@ -54,6 +58,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TransactionsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id/status'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_status_dto_1.UpdateStatusDto]),
+    __metadata("design:returntype", void 0)
+], TransactionsController.prototype, "updateStatus", null);
 exports.TransactionsController = TransactionsController = __decorate([
     (0, common_1.Controller)('transactions'),
     __metadata("design:paramtypes", [transactions_service_1.TransactionsService])

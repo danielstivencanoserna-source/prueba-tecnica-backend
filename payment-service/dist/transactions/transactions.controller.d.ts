@@ -1,6 +1,7 @@
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { QueryTransactionsDto } from './dto/query-transactions.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
 export declare class TransactionsController {
     private readonly transactionsService;
     constructor(transactionsService: TransactionsService);
@@ -37,6 +38,18 @@ export declare class TransactionsController {
         };
     }>;
     findOne(id: string): Promise<{
+        id: string;
+        amount: import("@prisma/client/runtime/library").Decimal;
+        currency: import(".prisma/client").$Enums.Currency;
+        type: import(".prisma/client").$Enums.TransactionType;
+        status: import(".prisma/client").$Enums.TransactionStatus;
+        reference: string;
+        metadata: import("@prisma/client/runtime/library").JsonValue | null;
+        createdAt: Date;
+        updatedAt: Date;
+        merchantId: string;
+    }>;
+    updateStatus(id: string, dto: UpdateStatusDto): Promise<{
         id: string;
         amount: import("@prisma/client/runtime/library").Decimal;
         currency: import(".prisma/client").$Enums.Currency;

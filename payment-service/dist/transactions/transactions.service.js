@@ -74,6 +74,26 @@ let TransactionsService = class TransactionsService {
         }
         return transaction;
     }
+    async updateStatus(id, dto) {
+        const transaction = await this.findOne(id);
+        const current = transaction.status;
+        const next = dto.status;
+        const allowedTransitions = {
+            pending: ['approved', 'rejected'],
+            approved: ['completed'],
+            rejected: [],
+            failed: [],
+            completed: [],
+        };
+        const allowed = allowedTransitions[current];
+        if (!allowed.includes(next)) {
+            throw new common_1.BadRequestException(`Invalid transition: ${current} -> ${next}`);
+        }
+        return this.prisma.transaction.update({
+            where: { id },
+            data: { status: next },
+        });
+    }
     async generateUniqueReference() {
         for (let i = 0; i < 5; i++) {
             const ref = this.buildReference();
