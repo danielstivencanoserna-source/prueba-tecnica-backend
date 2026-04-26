@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
-import { TransactionsModule } from './transactions/transactions.module';
 import { MerchantsModule } from './merchants/merchants.module';
+import { TransactionsModule } from './transactions/transactions.module';
+import { SettlementsModule } from './settlements/settlements.module';
 
 @Module({
   imports: [
     PrismaModule,
-    TransactionsModule,
     MerchantsModule,
+    TransactionsModule,
+    SettlementsModule,
   ],
 })
 export class AppModule {}
