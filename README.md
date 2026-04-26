@@ -1,11 +1,20 @@
-# Prueba Técnica - Sistema de Gestión de Pagos
+# Payment Service
 
-Proyecto desarrollado como parte de la prueba técnica para la posición de **Backend Developer**.
+Backend service for managing merchants, transactions, and settlements.
 
-## Tecnologías utilizadas
-- **NestJS** + **Prisma** (Payment Service)
-- **Express.js** (API Gateway)
-- **PostgreSQL**
-- **Docker** + **Docker Compose**
+## Tech Stack
 
-## Estructura del Proyecto
+- NestJS
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- Docker
+
+---
+
+## Project Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
