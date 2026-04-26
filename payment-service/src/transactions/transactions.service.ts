@@ -1,9 +1,11 @@
 import {
   BadRequestException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { QueryTransactionsDto } from './dto/query-transactions.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -30,6 +32,50 @@ export class TransactionsService {
         reference,
       },
     });
+  }
+
+async findAll(query: QueryTransactionsDto) {
+    const { page, limit, status, type, merchantId } = query;
+
+    const where: any = {};
+
+    if (status) where.status = status;
+    if (type) where.type = type;
+    if (merchantId) where.merchantId = merchantId;
+
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.prisma.transaction.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.transaction.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async findOne(id: string) {
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { id },
+    });
+
+    if (!transaction) {
+      throw new NotFoundException('Transaction not found');
+    }
+
+    return transaction;
   }
 
   private async generateUniqueReference(): Promise<string> {

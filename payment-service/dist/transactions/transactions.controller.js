@@ -16,6 +16,7 @@ exports.TransactionsController = void 0;
 const common_1 = require("@nestjs/common");
 const transactions_service_1 = require("./transactions.service");
 const create_transaction_dto_1 = require("./dto/create-transaction.dto");
+const query_transactions_dto_1 = require("./dto/query-transactions.dto");
 let TransactionsController = class TransactionsController {
     transactionsService;
     constructor(transactionsService) {
@@ -23,6 +24,12 @@ let TransactionsController = class TransactionsController {
     }
     create(dto) {
         return this.transactionsService.create(dto);
+    }
+    findAll(query) {
+        return this.transactionsService.findAll(query);
+    }
+    findOne(id) {
+        return this.transactionsService.findOne(id);
     }
 };
 exports.TransactionsController = TransactionsController;
@@ -33,6 +40,20 @@ __decorate([
     __metadata("design:paramtypes", [create_transaction_dto_1.CreateTransactionDto]),
     __metadata("design:returntype", void 0)
 ], TransactionsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [query_transactions_dto_1.QueryTransactionsDto]),
+    __metadata("design:returntype", void 0)
+], TransactionsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], TransactionsController.prototype, "findOne", null);
 exports.TransactionsController = TransactionsController = __decorate([
     (0, common_1.Controller)('transactions'),
     __metadata("design:paramtypes", [transactions_service_1.TransactionsService])
