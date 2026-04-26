@@ -12,29 +12,37 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TransactionsController = void 0;
+exports.MerchantsController = void 0;
 const common_1 = require("@nestjs/common");
-const transactions_service_1 = require("./transactions.service");
-const create_transaction_dto_1 = require("./dto/create-transaction.dto");
-let TransactionsController = class TransactionsController {
-    transactionsService;
-    constructor(transactionsService) {
-        this.transactionsService = transactionsService;
+const merchants_service_1 = require("./merchants.service");
+let MerchantsController = class MerchantsController {
+    merchantsService;
+    constructor(merchantsService) {
+        this.merchantsService = merchantsService;
     }
-    create(dto) {
-        return this.transactionsService.create(dto);
+    create(body) {
+        return this.merchantsService.create(body);
+    }
+    findAll() {
+        return this.merchantsService.findAll();
     }
 };
-exports.TransactionsController = TransactionsController;
+exports.MerchantsController = MerchantsController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_transaction_dto_1.CreateTransactionDto]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], TransactionsController.prototype, "create", null);
-exports.TransactionsController = TransactionsController = __decorate([
-    (0, common_1.Controller)('transactions'),
-    __metadata("design:paramtypes", [transactions_service_1.TransactionsService])
-], TransactionsController);
-//# sourceMappingURL=transactions.controller.js.map
+], MerchantsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantsController.prototype, "findAll", null);
+exports.MerchantsController = MerchantsController = __decorate([
+    (0, common_1.Controller)('merchants'),
+    __metadata("design:paramtypes", [merchants_service_1.MerchantsService])
+], MerchantsController);
+//# sourceMappingURL=merchants.controller.js.map

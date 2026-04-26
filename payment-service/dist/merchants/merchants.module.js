@@ -6,21 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.MerchantsModule = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_module_1 = require("./prisma/prisma.module");
-const transactions_module_1 = require("./transactions/transactions.module");
-const merchants_module_1 = require("./merchants/merchants.module");
-let AppModule = class AppModule {
+const merchants_controller_1 = require("./merchants.controller");
+const merchants_service_1 = require("./merchants.service");
+let MerchantsModule = class MerchantsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.MerchantsModule = MerchantsModule;
+exports.MerchantsModule = MerchantsModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            prisma_module_1.PrismaModule,
-            transactions_module_1.TransactionsModule,
-            merchants_module_1.MerchantsModule,
-        ],
+        controllers: [merchants_controller_1.MerchantsController],
+        providers: [merchants_service_1.MerchantsService]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], MerchantsModule);
+//# sourceMappingURL=merchants.module.js.map
