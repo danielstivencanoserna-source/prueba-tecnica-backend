@@ -47,7 +47,6 @@ model Merchant {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // Relaciones
   transactions Transaction[]
   settlements  Settlement[]
 
@@ -67,10 +66,9 @@ model Transaction {
   createdAt   DateTime          @default(now()) @map("created_at")
   updatedAt   DateTime          @updatedAt @map("updated_at")
 
-  // Relaciones
-  merchant              Merchant               @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  merchant    Merchant          @relation(fields: [merchantId], references: [id], onDelete: Cascade)
   settlementTransactions SettlementTransaction[]
-  // Índices para consultas frecuentes
+
   @@index([merchantId])
   @@index([status])
   @@index([type])
@@ -88,11 +86,9 @@ model Settlement {
   periodEnd         DateTime @map("period_end")
   createdAt         DateTime @default(now()) @map("created_at")
 
-  // Relaciones
   merchant               Merchant               @relation(fields: [merchantId], references: [id], onDelete: Cascade)
   settlementTransactions SettlementTransaction[]
 
-  // Índices
   @@index([merchantId])
   @@index([status])
   @@index([periodStart])
@@ -100,7 +96,6 @@ model Settlement {
   @@map("settlements")
 }
 
-// Tabla pivot (many-to-many) con constraint de unicidad
 model SettlementTransaction {
   settlementId  String @map("settlement_id")
   transactionId String @unique @map("transaction_id")
